@@ -260,6 +260,8 @@ public class PdfHdr extends Thread{
     }
 
     public PdfHdr() {
+   
+    
     }
 
     
@@ -272,6 +274,7 @@ public class PdfHdr extends Thread{
     
     @Override
     public void run(){
+        
         Document documento=new Document();
         int i=1;
         //String clienteF=doc.getAfipPlastCbte().replace(":","_");
@@ -301,10 +304,11 @@ public class PdfHdr extends Thread{
                 documento.add(imagen);
             }
             */
+            System.out.println(this.cn.toString());
             String sql1=null;
             String sql="select hdr.listadoNumero,(select listadosdemateriales.revision from listadosdemateriales where listadosdemateriales.numero=hdr.listadoNumero)as rev,(select unidades.descripcion from unidades where numero=hdr.numeroVehiculo)as descripcionUnidad,(select unidades.descripcion from unidades where numero=hdr.numeroVehiculo)as descV,round(hdr.pesoCarga,2) as pesoTot,(select unidades.kilometrosActuales from unidades where numero=hdr.numeroVehiculo)as unidadKm,(select fleteros.nombre from fleteros where numero=hdr.numeroFletero)as nombreFletero,(select fleteros.celular from fleteros where numero=hdr.numeroFletero)as celularFletero,left(replace(hdr.fechaEntrega,\"/\",\"\"),4)as fechaTit,left((select unidades.descripcion from unidades where numero=hdr.numeroVehiculo),5)as nombreV,substring((select unidades.descripcion from unidades where numero=hdr.numeroVehiculo),6)as turnoV from hdr where numero="+this.getIdListado();
-            Statement st=this.getCn().createStatement();
-            Statement st1=this.getCn().createStatement();
+            Statement st=this.cn.createStatement();
+            Statement st1=this.cn.createStatement();
             ResultSet rs1 = null;
             ResultSet rs=st.executeQuery(sql);
             
