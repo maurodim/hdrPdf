@@ -326,9 +326,11 @@ public class PdfHdr extends Thread{
                 titF=rs.getString("fechaTit").replace("/","");
                 vehi=rs.getString("nombreV");
                 largo=vehi.length();
-                largo=largo - 1;
+                largo=largo - 2;
                 
                 turno=vehi.substring(largo);
+                turno=turno.trim();
+                if(turno.equals(""))turno="1";
                 vehi=vehi.substring(0, largo);
                 this.setTitulo(vehi+" "+rs.getString("fechaTit")+" - "+turno);
                 this.setVehiculo("Vehiculo: "+rs.getString("descripcionUnidad"));
@@ -423,6 +425,7 @@ public class PdfHdr extends Thread{
             Double impo=0.00;
             String importe=null;
             String comprobante=null;
+            String nombreCliente="";
             while(rs1.next()){
                 //pdf=(PdfListado) it.next();
                 contador++;
@@ -438,7 +441,9 @@ public class PdfHdr extends Thread{
                 //bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
                 //cb.setFontAndSize(bf,6);
                 cb.setTextMatrix(130,renglon);
-                cb.showText(rs1.getString("cliente"));
+                nombreCliente=rs1.getString("cliente");
+                if(nombreCliente.length() > 38)nombreCliente=nombreCliente.substring(0,38);
+                cb.showText(nombreCliente);
                 //bf = BaseFont.createFont(BaseFont.COURIER_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
                 //cb.setFontAndSize(bf,8);
                 cb.setTextMatrix(300,renglon);
