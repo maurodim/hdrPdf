@@ -319,25 +319,28 @@ public class PdfHdr extends Thread{
             cb.beginText();
             String unidadKm=null;
             String titF="";
+            String titF1="";
             String turno="";
             String vehi="";
             int largo=0;
             while(rs.next()){
-                titF=rs.getString("fechaTit").replace("/","");
+                
+                titF1=rs.getString("fechaTit");
+                titF=titF1.replaceAll("/","");
                 vehi=rs.getString("nombreV");
                 largo=vehi.length();
-                largo=largo - 2;
+                largo=largo - 1;
                 
                 turno=vehi.substring(largo);
                 turno=turno.trim();
                 if(turno.equals(""))turno="1";
                 vehi=vehi.substring(0, largo);
-                this.setTitulo(vehi+" "+rs.getString("fechaTit")+" - "+turno);
-                this.setVehiculo("Vehiculo: "+rs.getString("descripcionUnidad"));
-                this.setListadoNumero("Listado de Preparación Nº: "+rs.getString("listadoNumero")+" Rev: "+rs.getString("rev"));
-                this.setPesoTotal("Peso Total Kg.: "+rs.getString("pesoTot"));
-                this.setOperador("Operador: "+rs.getString("nombrefletero"));
-                this.setCelularOperador("Celular: "+rs.getString("celularFletero"));
+                this.setTitulo(vehi+" "+titF+" - "+turno);
+                this.setVehiculo(rs.getString("descripcionUnidad"));
+                this.setListadoNumero("LPM Nº: "+rs.getString("listadoNumero")+" Rev: "+rs.getString("rev"));
+                this.setPesoTotal("Total Kg.: "+rs.getString("pesoTot"));
+                this.setOperador(rs.getString("nombrefletero"));
+                this.setCelularOperador("Cel.: "+rs.getString("celularFletero"));
                 unidadKm=rs.getString("unidadKm");
                 
             }
@@ -361,7 +364,7 @@ public class PdfHdr extends Thread{
             bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
             cb.setFontAndSize(bf,8);
             cb.setTextMatrix(370,800);
-            cb.showText("Fecha y Hora de Impresión: "+hourdateFormat.format(date));
+            cb.showText("Fecha y Hora: "+hourdateFormat.format(date));
              bf = BaseFont.createFont(BaseFont.COURIER_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
             cb.setFontAndSize(bf,10);
             cb.setTextMatrix(370,790);
