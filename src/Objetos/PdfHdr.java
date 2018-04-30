@@ -306,7 +306,8 @@ public class PdfHdr extends Thread{
             */
             System.out.println(this.cn.toString());
             String sql1=null;
-            String sql="select hdr.listadoNumero,(select listadosdemateriales.revision from listadosdemateriales where listadosdemateriales.numero=hdr.listadoNumero)as rev,(select unidades.descripcion from unidades where numero=hdr.numeroVehiculo)as descripcionUnidad,(select unidades.descripcion from unidades where numero=hdr.numeroVehiculo)as descV,round(hdr.pesoCarga,2) as pesoTot,(select unidades.kilometrosActuales from unidades where numero=hdr.numeroVehiculo)as unidadKm,(select fleteros.nombre from fleteros where numero=hdr.numeroFletero)as nombreFletero,(select fleteros.celular from fleteros where numero=hdr.numeroFletero)as celularFletero,left(hdr.fechaEntrega,6)as fechaTit,left((select unidades.descripcion from unidades where numero=hdr.numeroVehiculo),5)as nombreV,substring((select unidades.descripcion from unidades where numero=hdr.numeroVehiculo),6)as turnoV from hdr where numero="+this.getIdListado();
+            //String reem='replace(left(hdr.fechaEntrega,6),'"+"/","")as fechaTit";
+            String sql="select hdr.listadoNumero,(select listadosdemateriales.revision from listadosdemateriales where listadosdemateriales.numero=hdr.listadoNumero)as rev,(select unidades.descripcion from unidades where numero=hdr.numeroVehiculo)as descripcionUnidad,(select unidades.descripcion from unidades where numero=hdr.numeroVehiculo)as descV,round(hdr.pesoCarga,2) as pesoTot,(select unidades.kilometrosActuales from unidades where numero=hdr.numeroVehiculo)as unidadKm,(select fleteros.nombre from fleteros where numero=hdr.numeroFletero)as nombreFletero,(select fleteros.celular from fleteros where numero=hdr.numeroFletero)as celularFletero,left(hdr.fechaEntrega,5)as fechaTit,left((select unidades.descripcion from unidades where numero=hdr.numeroVehiculo),5)as nombreV,substring((select unidades.descripcion from unidades where numero=hdr.numeroVehiculo),6)as turnoV from hdr where numero="+this.getIdListado();
             Statement st=this.cn.createStatement();
             Statement st1=this.cn.createStatement();
             ResultSet rs1 = null;
@@ -320,18 +321,21 @@ public class PdfHdr extends Thread{
             String unidadKm=null;
             String titF="";
             String titF1="";
+            String titF2="";
             String turno="";
             String vehi="";
             int largo=0;
             while(rs.next()){
                 
                 titF1=rs.getString("fechaTit");
-                titF=titF1.replaceAll("/","");
+                titF=titF1.substring(0,2);
+                titF2=titF1.substring(3);
+                titF=titF+titF2;
                 vehi=rs.getString("nombreV");
                 largo=vehi.length();
-                largo=largo - 1;
+                //largo=largo - 1;
                 
-                turno=vehi.substring(largo);
+                turno=rs.getString("turnoV");
                 turno=turno.trim();
                 if(turno.equals(""))turno="1";
                 vehi=vehi.substring(0, largo);
