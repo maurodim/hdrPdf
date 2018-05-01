@@ -324,6 +324,7 @@ public class PdfHdr extends Thread{
             String titF2="";
             String turno="";
             String vehi="";
+            String vw="";
             int largo=0;
             while(rs.next()){
                 
@@ -338,7 +339,13 @@ public class PdfHdr extends Thread{
                 turno=rs.getString("turnoV");
                 turno=turno.trim();
                 if(turno.equals(""))turno="1";
-                vehi=vehi.substring(0, largo);
+                vw=vehi.substring(0,2);
+                vw.trim();
+                if(vw.equals("VW")){
+                    vehi=vw;
+                }else{
+                    vehi=vehi.substring(0, largo);
+                }
                 this.setTitulo(vehi+" "+titF+" - "+turno);
                 this.setVehiculo(rs.getString("descripcionUnidad"));
                 this.setListadoNumero("LPM Nº: "+rs.getString("listadoNumero")+" Rev: "+rs.getString("rev"));
