@@ -338,11 +338,14 @@ public class PdfHdr extends Thread{
                 
                 turno=rs.getString("turnoV");
                 turno=turno.trim();
-                if(turno.equals(""))turno="1";
+                //if(turno.equals(""))turno="1";
                 vw=vehi.substring(0,2);
                 vw.trim();
                 if(vw.equals("VW")){
                     vehi=vw;
+                    turno=vehi.substring(2);
+                    System.out.println("TURNO CORRESPONDIENTE: "+turno);
+                    if(turno.equals(""))turno="1";
                 }else{
                     vehi=vehi.substring(0, largo);
                 }
